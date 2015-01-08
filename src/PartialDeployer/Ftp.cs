@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace PartialDeployer
 {
@@ -147,6 +150,7 @@ namespace PartialDeployer
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                     //Console.WriteLine(ex.Message);
                 }
             }

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace PartialDeployer
 {
+    using System.IO;
+
     class folderMan
     {
         string[] deliedList = (".git|.gitignore|.gitattributes|.svn-base|sess_|.idea|log-|.less|package\\|app\\storage\\sessions|bundle\\|storage\\").Split('|');
@@ -51,7 +54,7 @@ namespace PartialDeployer
         {
             Console.WriteLine("Reading Folder : {0}", sFolder);
             List<DirEntry> DirEntries = new List<DirEntry>();
-            configReader cr = new configReader();
+            configMan cr = new configMan("");
 
             DirectoryInfo dirInfo = new DirectoryInfo(sFolder);
             if (dirInfo.Exists)

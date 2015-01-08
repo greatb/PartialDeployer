@@ -70,7 +70,7 @@ namespace PartialDeployer
             int hashDateModified = (entry.DateModified == null) ? 0 : entry.DateModified.GetHashCode();
             int hashEntryName = (entry.EntryName == null) ? 0 : entry.EntryName.GetHashCode();
             int hashEntryPath = (entry.EntryPath == null) ? 0 : entry.EntryPath.GetHashCode();
-            int hashEntryType = (entry.EntryType == null) ? 0 : entry.EntryType.GetHashCode();
+            int hashEntryType = (entry.EntryType == FtpEntryType.Unknown) ? 0 : entry.EntryType.GetHashCode();
 
             return hashDateModified ^ hashEntryName ^ hashEntryPath ^ hashEntryType;
         }

@@ -18,9 +18,11 @@ namespace PartialDeployer
             }*/
 
             ftp ftp1 = new ftp();
-            configMan cr = new configMan();
+            configMan cr = new configMan("");
             DateTime dt = DateTime.Now;
             string releaseName = dt.ToString(cr.ReleaseNameTemplate);
+
+            Deploy _deploy = new Deploy();
 
 
             folderMan fman = new folderMan();
@@ -43,8 +45,8 @@ namespace PartialDeployer
             //IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(cr.DIR_Source);
             //IEnumerable<DirEntry> fldProudContent = fman.DirGetFolderContents(cr.DIR_Product);
 
-            Deploy.CleanUpDeployFolderAndReleaseFolder();
-            Deploy.CopyNewAndChangedFiles();
+            _deploy.CleanUpDeployFolderAndReleaseFolder();
+            _deploy.CopyNewAndChangedFiles();
             IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(cr.DIR_Deploy);
 
             /*
@@ -67,7 +69,7 @@ namespace PartialDeployer
                     ftp1.FTPUpload(fromFile, toFile);
                 }
             }
-            Deploy.CopyAllDeployToProduction();
+            _deploy.CopyAllDeployToProduction();
         }
 
         private static bool CheckRemoteAccess(ftp ftp1, configMan cr)

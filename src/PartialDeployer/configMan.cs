@@ -9,7 +9,7 @@
     {
         KeyValueConfigurationCollection _KeyValueConfigs;
 
-        public configMan(string fileName)
+        public configMan(string fileName = "")
         {
             if (File.Exists(fileName))
             {
