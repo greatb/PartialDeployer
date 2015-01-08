@@ -12,9 +12,9 @@ namespace PartialDeployer
 
         private configMan _configMan;
 
-        public Deploy()
+        public Deploy(configMan configMan)
         {
-            _configMan = new configMan("");
+            _configMan = configMan;
         }
 
         public void CheckAndCreateNewFolders(string[] Srcfolders)

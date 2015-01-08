@@ -26,7 +26,7 @@
             }
         }
 
-        public string getString(string KeyName)
+        public string GetString(string KeyName)
         {
             return _KeyValueConfigs["Server"].Value.ToString();
         }
@@ -40,7 +40,7 @@
         {
             get
             {
-                return getString("ReleaseNameTemplate");
+                return GetString("ReleaseNameTemplate");
             }
         }
 
@@ -48,7 +48,7 @@
         {
             get
             {
-                return getString("APP_Enviro");
+                return GetString("APP_Enviro");
             }
         }
 
@@ -56,7 +56,7 @@
         {
             get
             {
-                return getString("LOG_Filename");
+                return GetString("LOG_Filename");
             }
         }
 
@@ -64,35 +64,35 @@
         {
             get
             {
-                return getString("DIR_Source");
+                return GetString("DIR_Source");
             }
         }
         public string DIR_Product
         {
             get
             {
-                return getString("DIR_Product");
+                return GetString("DIR_Product");
             }
         }
         public string DIR_Deploy
         {
             get
             {
-                return getString("DIR_Deploy");
+                return GetString("DIR_Deploy");
             }
         }
         public string DIR_Release
         {
             get
             {
-                return getString("DIR_Release");
+                return GetString("DIR_Release");
             }
         }
         public string DIR_Backup
         {
             get
             {
-                return getString("DIR_Backup");
+                return GetString("DIR_Backup");
             }
         }
 
@@ -100,14 +100,14 @@
         {
             get
             {
-                return getString("URL_Backup");
+                return GetString("URL_Backup");
             }
         }
         public string URL_SqlBackup
         {
             get
             {
-                return getString("URL_SqlBackup");
+                return GetString("URL_SqlBackup");
             }
         }
 
@@ -115,28 +115,28 @@
         {
             get
             {
-                return getString("FTP_Server");
+                return GetString("FTP_Server");
             }
         }
         public string FTP_UserName
         {
             get
             {
-                return getString("FTP_UserName");
+                return GetString("FTP_UserName");
             }
         }
         public string FTP_PassWord
         {
             get
             {
-                return getString("FTP_PassWord");
+                return GetString("FTP_PassWord");
             }
         }
         public string FTP_Folder
         {
             get
             {
-                return getString("FTP_Folder");
+                return GetString("FTP_Folder");
             }
         }
     }
