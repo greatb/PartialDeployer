@@ -10,20 +10,20 @@ namespace PartialDeployer
     public class Deploy
     {
 
-        private configMan _configMan;
+        private configMan _config;
 
         public Deploy(configMan configMan)
         {
-            _configMan = configMan;
+            _config = configMan;
         }
 
         public void CheckAndCreateNewFolders(string[] Srcfolders)
         {
             foreach (string folder in Srcfolders)
             {
-                string SrcFolderPath = _configMan.DIR_Source;
-                string PrdFolderPath = folder.Replace(SrcFolderPath, _configMan.DIR_Product);
-                string DepFolderPath = folder.Replace(SrcFolderPath, _configMan.DIR_Deploy);
+                string SrcFolderPath = _config.DIR_Source;
+                string PrdFolderPath = folder.Replace(SrcFolderPath, _config.DIR_Product);
+                string DepFolderPath = folder.Replace(SrcFolderPath, _config.DIR_Deploy);
 
                 if (File.Exists(PrdFolderPath))
                 {
@@ -37,22 +37,22 @@ namespace PartialDeployer
 
         public void CleanUpDeployFolderAndReleaseFolder()
         {
-            if (Directory.Exists(_configMan.DIR_Deploy))
+            if (Directory.Exists(_config.DIR_Deploy))
             {
-                Directory.Delete(_configMan.DIR_Deploy, true);
+                Directory.Delete(_config.DIR_Deploy, true);
             }
-            Directory.CreateDirectory(_configMan.DIR_Deploy);
+            Directory.CreateDirectory(_config.DIR_Deploy);
         }
 
         public void CopyAllDeployToProduction()
         {
             folderMan fman = new folderMan();
 
-            IEnumerable<DirEntry> filesToProduction = fman.DirGetFolderContents(_configMan.DIR_Deploy);
+            IEnumerable<DirEntry> filesToProduction = fman.DirGetFolderContents(_config.DIR_Deploy);
 
             foreach (DirEntry f in filesToProduction.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
-                fman.ForceCopy(_configMan.DIR_Deploy + f.EntryPath, f.EntryName, _configMan.DIR_Product + f.EntryPath, f.EntryName);
+                fman.ForceCopy(_config.DIR_Deploy + f.EntryPath, f.EntryName, _config.DIR_Product + f.EntryPath, f.EntryName);
             }
         }
 
@@ -60,11 +60,11 @@ namespace PartialDeployer
         public void CopyNewAndChangedFiles()
         {
             DateTime dt = DateTime.Now;
-            string releaseName = dt.ToString(_configMan.ReleaseNameTemplate);
+            string releaseName = dt.ToString(_config.ReleaseNameTemplate);
 
             folderMan fman = new folderMan();
-            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(_configMan.DIR_Source);
-            IEnumerable<DirEntry> fldProudContent = fman.DirGetFolderContents(_configMan.DIR_Product);
+            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(_config.DIR_Source);
+            IEnumerable<DirEntry> fldProudContent = fman.DirGetFolderContents(_config.DIR_Product);
 
             DirEntryEqualityComparer dirEntryEqualityComparer = new DirEntryEqualityComparer();
             IEnumerable<DirEntry> filesToDeploy = fldSourceContent.Except(fldProudContent, dirEntryEqualityComparer).ToList();
@@ -82,7 +82,7 @@ namespace PartialDeployer
 
             foreach (DirEntry f in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
-                fman.ForceCopy(_configMan.DIR_Source + f.EntryPath, f.EntryName, _configMan.DIR_Deploy + f.EntryPath, f.EntryName);
+                fman.ForceCopy(_config.DIR_Source + f.EntryPath, f.EntryName, _config.DIR_Deploy + f.EntryPath, f.EntryName);
             }
         }
     }

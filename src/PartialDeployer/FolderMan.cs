@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 
 namespace PartialDeployer
@@ -12,8 +11,6 @@ namespace PartialDeployer
     class folderMan
     {
         string[] deliedList = (".git|.gitignore|.gitattributes|.svn-base|sess_|.idea|log-|.less|package\\|app\\storage\\sessions|bundle\\|storage\\").Split('|');
-
-
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)
         {
