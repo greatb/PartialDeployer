@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using log4net;
+using log4net.Config;
 
 namespace PartialDeployer
 {
     class Program
     {
+        private static readonly ILog log = LogManager.GetLogger("PDip");
+
         static void Main(string[] args)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
+            //BasicConfigurator.Configure();
+            log.Debug("Test");
+
             configMan _config = loadConfig(args);
 
             DateTime dt = DateTime.Now;
@@ -19,9 +27,7 @@ namespace PartialDeployer
             ftp ftp1 = new ftp(_config);
             Deploy _deploy = new Deploy(_config);
             
-
             CheckConnection(ftp1, _config);
-
 
             _deploy.CleanUpDeployFolderAndReleaseFolder();
             _deploy.CopyNewAndChangedFiles();
@@ -59,7 +65,6 @@ namespace PartialDeployer
 
         private static configMan loadConfig(string[] args)
         {
-            configMan confiMan;
             string appName;
             try
             {
@@ -74,7 +79,7 @@ namespace PartialDeployer
 
                 appName = string.Format("{0}.config", appName);
 
-                confiMan = new configMan(appName);
+                configMan confiMan = new configMan(appName);
                 Console.WriteLine(confiMan.GetString("sdfsfsfdsf"));
                 return confiMan;
             }
