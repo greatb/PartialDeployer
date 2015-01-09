@@ -15,35 +15,11 @@ namespace PartialDeployer
 
     public class DirEntry
     {
-        public FtpEntryType EntryType
-        {
-            get;
-            set;
-        }
-
-        public string EntryName
-        {
-            get;
-            set;
-        }
-
-        public string EntryPath
-        {
-            get;
-            set;
-        }
-
-        public string FullLine
-        {
-            get;
-            set;
-        }
-
-        public DateTime DateModified
-        {
-            get;
-            set;
-        }
+        public FtpEntryType EntryType { get; set; }
+        public string EntryName { get; set; }
+        public string EntryPath { get; set; }
+        public string FullLine { get; set; }
+        public DateTime DateModified { get; set; }
 
     }
 

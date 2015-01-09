@@ -28,12 +28,26 @@
 
         public string GetString(string KeyName)
         {
-            return _KeyValueConfigs["Server"].Value.ToString();
+            try
+            {
+                return _KeyValueConfigs[KeyName].Value.ToString();
+            }
+            catch(Exception ex)
+            {
+                return "";
+            }
         }
 
         public int GetInt(string KeyName)
         {
-            return int.Parse(_KeyValueConfigs["Server"].Value);
+            try
+            {
+                return int.Parse(_KeyValueConfigs["Server"].Value);
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
         }
 
         public string ReleaseNameTemplate

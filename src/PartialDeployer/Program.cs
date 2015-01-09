@@ -10,27 +10,14 @@ namespace PartialDeployer
     {
         static void Main(string[] args)
         {
-            /*
-            if (args.Length == 0)
-            {
-                Console.WriteLine("Please provide the profile name");
-                Environment.Exit(1);
-            }*/
-
-            ftp ftp1 = new ftp();
-
+            
             configMan confiMan = loadConfig(args);
-            if (confiMan == null)
-            {
-                Environment.Exit(1);
-            }
-
 
             DateTime dt = DateTime.Now;
             string releaseName = dt.ToString(confiMan.ReleaseNameTemplate);
 
+            ftp ftp1 = new ftp(confiMan);
             Deploy _deploy = new Deploy(confiMan);
-
 
             folderMan fman = new folderMan();
 
@@ -47,7 +34,6 @@ namespace PartialDeployer
                 Environment.Exit(1);
             }
              * */
-
 
             _deploy.CleanUpDeployFolderAndReleaseFolder();
             _deploy.CopyNewAndChangedFiles();
@@ -68,7 +54,7 @@ namespace PartialDeployer
             _deploy.CopyAllDeployToProduction();
         }
 
-        private configMan loadConfig(string[] args)
+        private static configMan loadConfig(string[] args)
         {
             configMan confiMan;
             string appName;

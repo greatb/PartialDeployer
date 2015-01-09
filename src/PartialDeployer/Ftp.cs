@@ -17,17 +17,14 @@ namespace PartialDeployer
         private string ftp_password;
         private string ftp_folder;
 
-        private configMan _configMan;
-
         //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
         //Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
         public static Regex FtpListDirectoryDetailsRegex = new Regex(@".*(?<month>(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\s*(?<day>[0-9]*)\s*(?<yearTime>([0-9]|:)*)\s*(?<fileName>.*)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
         public static string fileNamesWithoutDot = "|error_log|";
 
 
-        public ftp()
+        public ftp(configMan _configMan)
         {
-            _configMan = new configMan("");
             ftp_username = _configMan.FTP_UserName;
             ftp_password = _configMan.FTP_PassWord;
             ftp_server = _configMan.FTP_Server;
@@ -108,21 +105,6 @@ namespace PartialDeployer
             {
                 Console.WriteLine("Error Server connection : {0} - {1}", savePath, ex.Message);
             }
-
-            /*
-             * wronf methd currpt data
-            request.Method = WebRequestMethods.Ftp.DownloadFile;
-
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
-            Stream responseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(responseStream);
-            StreamWriter writer = new StreamWriter(saveAs);
-            writer.Write(reader.ReadToEnd());
-            writer.Close();
-            reader.Close();
-            
-            */
         }
 
         //http://msdn.microsoft.com/en-us/library/ms229715%28v=vs.110%29.aspx
@@ -200,11 +182,7 @@ namespace PartialDeployer
                 requestFTPUploader = null;
             }
 
-
-
             return true;
-
-
         }
 
 
