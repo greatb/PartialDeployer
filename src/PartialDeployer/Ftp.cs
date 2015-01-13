@@ -36,6 +36,8 @@ namespace PartialDeployer
             ftp_password = _configMan.FTP_PassWord;
             ftp_server = _configMan.FTP_Server;
             ftp_folder = _configMan.FTP_Folder;
+
+            ConfigedRemotePaths = new List<string>();
         }
 
         #region Privates
@@ -83,7 +85,6 @@ namespace PartialDeployer
 
             try
             {
-
                 FtpWebRequest requestFileDownload = getRequestObject(fileToDownload);
                 requestFileDownload.Method = WebRequestMethods.Ftp.DownloadFile;
                 FtpWebResponse responseFileDownload = (FtpWebResponse)requestFileDownload.GetResponse();
@@ -107,8 +108,6 @@ namespace PartialDeployer
 
                 requestFileDownload = null;
                 responseFileDownload = null;
-
-
             }
             catch (Exception ex)
             {
@@ -201,7 +200,6 @@ namespace PartialDeployer
             return true;
         }
 
-
         private DirEntry getFtpEntryFromDataLine(string dataline, string sFolder)
         {
             log.Debug("getFtpEntryFromDataLine");
@@ -252,19 +250,19 @@ namespace PartialDeployer
             StreamReader readerDetails1 = new StreamReader(responseDetailsStream1);
 
             string line1;
-            foreach (DirEntry f in DirEntries)
+            foreach (DirEntry dirEntry in DirEntries)
             {
                 line1 = readerDetails1.ReadLine();
                 if (line1.StartsWith("-"))
                 {
-                    f.EntryType = FtpEntryType.File;
+                    dirEntry.EntryType = FtpEntryType.File;
                 }
                 else
                 {
-                    if (f.EntryName != "." && f.EntryName != "..")
+                    if (dirEntry.EntryName != "." && dirEntry.EntryName != "..")
                     {
-                        f.EntryType = FtpEntryType.Folder;
-                        f.EntryName = f.EntryName + "/";
+                        dirEntry.EntryType = FtpEntryType.Folder;
+                        dirEntry.EntryName = dirEntry.EntryName + "/";
                     }
                 }
             }
