@@ -323,30 +323,5 @@ namespace PartialDeployer
             }
             return DirEntries;
         }
-
-        public bool DirectoryExists(string directory)
-        {
-            try
-            {
-                WebRequestMethods.Ftp.
-                FtpWebRequest directory = getRequestObject(directory);
-                string
-                    parent = directory.Substring(0, directory.TrimEnd('/').LastIndexOf('/') + 1),
-                    child = directory.Substring(directory.TrimEnd('/').LastIndexOf('/') + 1).TrimEnd('/');
-                FtpWebRequest request = getRequestObject(parent);
-                request.Method = WebRequestMethods.Ftp.ListDirectory;
-                using (FtpWebResponse response = request.GetResponse() as FtpWebResponse)
-                {
-                    if (response == null)
-                        return false;
-                    string data = new StreamReader(response.GetResponseStream(), true).ReadToEnd();
-                    return data.IndexOf(child, StringComparison.InvariantCultureIgnoreCase) >= 0;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
     }
 }
