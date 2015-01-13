@@ -9,17 +9,13 @@ namespace PartialDeployer
 {
     class Program
     {
-        private static readonly ILog log = LogManager.GetLogger("PDip");
+        private static readonly ILog log = LogManager.GetLogger("PartialDeployer");
 
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            //BasicConfigurator.Configure();
-            log.Debug("Test");
-
             configMan _config = loadConfig(args);
-
             DateTime dt = DateTime.Now;
             string releaseName = dt.ToString(_config.ReleaseNameTemplate);
 
@@ -60,7 +56,7 @@ namespace PartialDeployer
 
             if (!CheckRemoteAccess(ftp1, _config))
             {
-                Console.WriteLine("Unable to connect to FTP server");
+                log.Info("Unable to connect to FTP server");
                 Environment.Exit(1);
             }
         }
@@ -82,12 +78,12 @@ namespace PartialDeployer
                 appName = string.Format("{0}.config", appName);
 
                 configMan confiMan = new configMan(appName);
-                Console.WriteLine(confiMan.GetString("sdfsfsfdsf"));
                 return confiMan;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message.ToString());
+
+                log.ErrorFormat("Error {0}", e.Message);
                 return null;
             }
         }
