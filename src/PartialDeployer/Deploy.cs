@@ -7,8 +7,11 @@ using System.IO;
 
 namespace PartialDeployer
 {
+    using log4net;
+
     public class Deploy
     {
+        private static readonly ILog log = LogManager.GetLogger("Deploy");
 
         private configMan _config;
 

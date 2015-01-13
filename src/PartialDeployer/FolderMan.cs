@@ -7,9 +7,12 @@ using System.Text;
 namespace PartialDeployer
 {
     using System.IO;
+    using log4net;
 
-    class folderMan
+    public class folderMan
     {
+        private static readonly ILog log = LogManager.GetLogger("folderMan");
+
         string[] deliedList = (".git|.gitignore|.gitattributes|.svn-base|sess_|.idea|log-|.less|package\\|app\\storage\\sessions|bundle\\|storage\\").Split('|');
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)

@@ -1,0 +1,72 @@
+[33mcommit 7675164ea963da0e6fe87d1ad63442c62e958dfc[m
+Author: bthavapalan <bala.thavapalan@williamhill.com.au>
+Date:   Fri Jan 9 17:15:32 2015 +1100
+
+    Log4net added
+
+[33mcommit 880a638262c2f7dd7ad1e7fd5248735d7296f3ca[m
+Author: bthavapalan <bala.thavapalan@williamhill.com.au>
+Date:   Fri Jan 9 14:06:37 2015 +1100
+
+    config use scope update
+
+[33mcommit 9c23ad0a30154c4ca919ab723f2eec72afa3c48e[m
+Author: bthavapalan <bala.thavapalan@williamhill.com.au>
+Date:   Fri Jan 9 13:49:53 2015 +1100
+
+    Clean Up
+
+[33mcommit e1935f82a5bf5f6a9733d4ace77a1a0c325d6c89[m
+Author: bthavapalan <bala.thavapalan@williamhill.com.au>
+Date:   Fri Jan 9 09:37:09 2015 +1100
+
+    Refactoring loadConfig
+
+[33mcommit 20b71ab248d09e7c922758f19fd28aa8125d9c44[m
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 21:18:50 2015 +1100
+
+    StyleCop added
+
+[33mcommit dce941a81826d1860d8e149d258b1389a9eadc5c[m
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 21:16:30 2015 +1100
+
+    Fix to make build pass
+
+[33mcommit 2b29b9fc2361c123562c332b7abcd0f8c9dc5ecf[m
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 21:01:07 2015 +1100
+
+    Files added from old soluation
+
+[33mcommit c2ea01043871a6a280e3ab700449036dc231ebfd[m
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 20:52:28 2015 +1100
+
+    Blank project added
+
+[33mcommit 2a79d0f2ca6aeac2f424cffa069df277b3afd4f4[m
+Merge: 216cdb4 6f388f0
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 20:48:04 2015 +1100
+
+    Merge branch 'master' of https://github.com/greatb/PartialDeployer
+
+[33mcommit 216cdb4777b47bed22ebcbeabefbded8f027eef2[m
+Author: greatb <bthavapalan@gmail.com>
+Date:   Thu Jan 8 20:46:25 2015 +1100
+
+    Test commit
+
+[33mcommit 6f388f0a0e43a2812eaeab580b45da732dde6f97[m
+Author: Bala <bthavapalan@gmail.com>
+Date:   Mon Jan 5 21:50:14 2015 +1100
+
+    email updated
+
+[33mcommit fcecfc0b9d8b482177f2c97ab3761884ab38f7e8[m
+Author: Bala <bthavapalan@gmail.com>
+Date:   Mon Jan 5 21:19:18 2015 +1100
+
+    Initial commit

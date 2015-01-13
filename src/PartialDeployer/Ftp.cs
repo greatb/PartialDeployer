@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+
 using System.Net;
 using System.Security.Cryptography;
 using System.IO;
 
 namespace PartialDeployer
 {
-    class ftp
+    using System.Text.RegularExpressions;
+    using log4net;
+
+    public class ftp
     {
+        private static readonly ILog log = LogManager.GetLogger("Ftp");
+
         private string ftp_server;
         private string ftp_username;
         private string ftp_password;

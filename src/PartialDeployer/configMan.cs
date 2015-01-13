@@ -4,9 +4,12 @@
     using System.IO;
     using System.Configuration;
     using System.Collections.Specialized;
+    using log4net;
 
     public class configMan
     {
+        private static readonly ILog log = LogManager.GetLogger("configMan");
+
         KeyValueConfigurationCollection _KeyValueConfigs;
 
         public configMan(string fileName = "")
@@ -34,7 +37,8 @@
             }
             catch(Exception ex)
             {
-                return "";
+                log.ErrorFormat("{0} - Keyname : {1}", ex.Message, KeyName);
+                return string.Empty;
             }
         }
 
