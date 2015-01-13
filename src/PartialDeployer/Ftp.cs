@@ -22,6 +22,8 @@ namespace PartialDeployer
         private string ftp_password;
         private string ftp_folder;
 
+        private List<string> ConfigedRemotePaths;
+
         //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
         //Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
         public static Regex FtpListDirectoryDetailsRegex = new Regex(@".*(?<month>(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\s*(?<day>[0-9]*)\s*(?<yearTime>([0-9]|:)*)\s*(?<fileName>.*)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
@@ -132,15 +134,20 @@ namespace PartialDeployer
             foreach (string path in pathToMake)
             {
                 string tryPath = String.Format("{0}{1}{2}", ftp_server, ftp_folder, path);
-                FtpWebRequest request = getRequestObject(tryPath);
-                request.Method = WebRequestMethods.Ftp.MakeDirectory;
-                try
+
+                if (!ConfigedRemotePaths.Any(s => s == tryPath))
                 {
-                    WebResponse response = request.GetResponse();
-                }
-                catch (Exception ex)
-                {
-                    log.ErrorFormat(ex.Message);
+                    FtpWebRequest request = getRequestObject(tryPath);
+                    request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                    try
+                    {
+                        WebResponse response = request.GetResponse();
+                        ConfigedRemotePaths.Add(tryPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.ErrorFormat(ex.Message);
+                    }
                 }
             }
 
@@ -315,6 +322,31 @@ namespace PartialDeployer
                 }
             }
             return DirEntries;
+        }
+
+        public bool DirectoryExists(string directory)
+        {
+            try
+            {
+                WebRequestMethods.Ftp.
+                FtpWebRequest directory = getRequestObject(directory);
+                string
+                    parent = directory.Substring(0, directory.TrimEnd('/').LastIndexOf('/') + 1),
+                    child = directory.Substring(directory.TrimEnd('/').LastIndexOf('/') + 1).TrimEnd('/');
+                FtpWebRequest request = getRequestObject(parent);
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                using (FtpWebResponse response = request.GetResponse() as FtpWebResponse)
+                {
+                    if (response == null)
+                        return false;
+                    string data = new StreamReader(response.GetResponseStream(), true).ReadToEnd();
+                    return data.IndexOf(child, StringComparison.InvariantCultureIgnoreCase) >= 0;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
