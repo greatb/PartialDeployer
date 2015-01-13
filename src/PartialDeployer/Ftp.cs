@@ -314,9 +314,9 @@ namespace PartialDeployer
             {
                 List<DirEntry> ftpFolders = DirEntries.Where(x => (x.EntryType == FtpEntryType.Folder)).ToList();
 
-                foreach (DirEntry f in ftpFolders)
+                foreach (DirEntry ftpFolder in ftpFolders)
                 {
-                    DirEntries.AddRange(FTPGetFolderContents(sServer, sFolder + f.EntryName));
+                    DirEntries.AddRange(FTPGetFolderContents(sServer, sFolder + ftpFolder.EntryName));
                 }
             }
             return DirEntries;

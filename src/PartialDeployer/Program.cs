@@ -29,12 +29,12 @@ namespace PartialDeployer
             _deploy.CopyNewAndChangedFiles();
             IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(_config.DIR_Deploy);
 
-            foreach (DirEntry f in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            foreach (DirEntry fileToDeploy in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
-                string toPath = _config.FTP_Folder + f.EntryPath;
+                string toPath = _config.FTP_Folder + fileToDeploy.EntryPath;
                 toPath = _config.FTP_Server + toPath.Replace("\\", "/").Replace("//", "/");
-                string toFile = toPath + f.EntryName;
-                string fromFile = _config.DIR_Deploy + f.EntryPath + f.EntryName;
+                string toFile = toPath + fileToDeploy.EntryName;
+                string fromFile = _config.DIR_Deploy + fileToDeploy.EntryPath + fileToDeploy.EntryName;
                 if (ftp1.FTPUpload(fromFile, toFile) == false)
                 {
                     ftp1.FTPMakeFolder(toPath);
