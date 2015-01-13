@@ -50,6 +50,8 @@ namespace PartialDeployer
 
         private static void CheckConnection(ftp ftp1, configMan _config)
         {
+            log.Debug("CheckConnection");
+
             int iCounter = 0;
             while (!CheckRemoteAccess(ftp1, _config) && iCounter < 5)
             {

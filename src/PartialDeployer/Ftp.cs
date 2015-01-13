@@ -64,6 +64,8 @@ namespace PartialDeployer
 
         public void FTPdownload(string fileToDownload, string savePath, string saveAs)
         {
+            log.Debug("FTPdownload");
+
             try
             {
                 if (!Directory.Exists(savePath))
@@ -116,6 +118,8 @@ namespace PartialDeployer
 
         public bool FTPMakeFolder(string folderToMake)
         {
+            log.Debug("FTPMakeFolder");
+
             folderToMake = folderToMake.Substring(0, folderToMake.Length - 1);
 
             string[] pathToMake = folderToMake.Substring(ftp_server.Length + ftp_folder.Length, folderToMake.Length - ftp_server.Length - ftp_folder.Length).Split('/');
@@ -147,6 +151,8 @@ namespace PartialDeployer
 
         public bool FTPUpload(string fromFile, string fileToUpload)
         {
+            log.Debug("FTPUpload");
+
             if (!File.Exists(fromFile))
             {
                 Console.WriteLine("From file not exists : {0}", fromFile);
@@ -193,6 +199,8 @@ namespace PartialDeployer
 
         private DirEntry getFtpEntryFromDataLine(string dataline, string sFolder)
         {
+            log.Debug("getFtpEntryFromDataLine");
+
             Match match = FtpListDirectoryDetailsRegex.Match(dataline);
             DirEntry ftpET = new DirEntry() { EntryName = match.Groups["fileName"].Value, EntryPath = sFolder, EntryType = FtpEntryType.Unknown };
             Console.WriteLine(dataline);
@@ -214,6 +222,8 @@ namespace PartialDeployer
 
         private List<DirEntry> getDirectoryEntries(string sServer, string sFolder, bool details = true)
         {
+            log.Debug("getDirectoryEntries");
+
             List<DirEntry> DirEntries = new List<DirEntry>();
             FtpWebRequest request = getRequestObject(sServer + sFolder);
             request.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -261,6 +271,8 @@ namespace PartialDeployer
 
         private List<DirEntry> getDirectoryEntries2(string sServer, string sFolder, bool details = true)
         {
+            log.Debug("getDirectoryEntries2");
+
             List<DirEntry> DirEntries = new List<DirEntry>();
             FtpWebRequest request = getRequestObject(sServer + sFolder);
             request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
@@ -288,7 +300,9 @@ namespace PartialDeployer
         // http://msdn.microsoft.com/en-us/library/ms229716%28v=vs.110%29.aspx
         public List<DirEntry> FTPGetFolderContents(string sServer, string sFolder, bool regressive = true)
         {
-            Console.WriteLine("Reading Folder : {0}", sFolder);
+            log.Debug("FTPGetFolderContents"); 
+            log.InfoFormat("Reading Folder : {0}", sFolder);
+
             List<DirEntry> DirEntries = new List<DirEntry>();
 
             DirEntries = getDirectoryEntries2(sServer, sFolder);

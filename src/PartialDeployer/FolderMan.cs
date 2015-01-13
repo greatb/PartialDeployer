@@ -17,6 +17,8 @@ namespace PartialDeployer
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)
         {
+            log.Debug("ForceCopy");
+
             if (!Directory.Exists(toPath))
             {
                 Directory.CreateDirectory(toPath);
@@ -33,6 +35,8 @@ namespace PartialDeployer
 
         public List<DirEntry> DirGetFolder(string sFolder)
         {
+            log.Debug("DirGetFolder");
+
             List<DirEntry> DirEntries = new List<DirEntry>();
             DirectoryInfo dirInfo = new DirectoryInfo(sFolder);
             DirectoryInfo[] dirFolders = dirInfo.GetDirectories("*.*", SearchOption.AllDirectories);
@@ -52,6 +56,8 @@ namespace PartialDeployer
 
         public List<DirEntry> DirGetFolderContents(string sFolder)
         {
+            log.Debug("DirGetFolderContents");
+
             Console.WriteLine("Reading Folder : {0}", sFolder);
             List<DirEntry> DirEntries = new List<DirEntry>();
             configMan cr = new configMan("");

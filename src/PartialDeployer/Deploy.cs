@@ -22,6 +22,8 @@ namespace PartialDeployer
 
         public void CheckAndCreateNewFolders(string[] Srcfolders)
         {
+            log.Debug("CheckAndCreateNewFolders");
+
             foreach (string folder in Srcfolders)
             {
                 string SrcFolderPath = _config.DIR_Source;
@@ -40,6 +42,8 @@ namespace PartialDeployer
 
         public void CleanUpDeployFolderAndReleaseFolder()
         {
+            log.Debug("CleanUpDeployFolderAndReleaseFolder");
+
             if (Directory.Exists(_config.DIR_Deploy))
             {
                 Directory.Delete(_config.DIR_Deploy, true);
@@ -49,6 +53,8 @@ namespace PartialDeployer
 
         public void CopyAllDeployToProduction()
         {
+            log.Debug("CopyAllDeployToProduction");
+
             folderMan fman = new folderMan();
 
             IEnumerable<DirEntry> filesToProduction = fman.DirGetFolderContents(_config.DIR_Deploy);
@@ -62,6 +68,8 @@ namespace PartialDeployer
 
         public void CopyNewAndChangedFiles()
         {
+            log.Debug("CopyNewAndChangedFiles");
+
             DateTime dt = DateTime.Now;
             string releaseName = dt.ToString(_config.ReleaseNameTemplate);
 
