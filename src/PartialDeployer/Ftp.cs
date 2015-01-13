@@ -82,7 +82,6 @@ namespace PartialDeployer
                 log.InfoFormat("Error : {0} - {1}", savePath, ex.Message);
             }
 
-
             try
             {
                 FtpWebRequest requestFileDownload = getRequestObject(fileToDownload);
