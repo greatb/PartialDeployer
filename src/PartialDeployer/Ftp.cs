@@ -22,7 +22,7 @@ namespace PartialDeployer
         private string ftp_password;
         private string ftp_folder;
 
-        private List<string> ConfigedRemotePaths;
+        private List<string> configedRemotePaths;
 
         //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
         //Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
@@ -37,7 +37,7 @@ namespace PartialDeployer
             ftp_server = _configMan.FTP_Server;
             ftp_folder = _configMan.FTP_Folder;
 
-            ConfigedRemotePaths = new List<string>();
+            configedRemotePaths = new List<string>();
         }
 
         #region Privates
@@ -132,25 +132,30 @@ namespace PartialDeployer
 
             foreach (string path in pathToMake)
             {
-                string tryPath = String.Format("{0}{1}{2}", ftp_server, ftp_folder, path);
-
-                if (!ConfigedRemotePaths.Any(s => s == tryPath))
-                {
-                    FtpWebRequest request = getRequestObject(tryPath);
-                    request.Method = WebRequestMethods.Ftp.MakeDirectory;
-                    try
-                    {
-                        WebResponse response = request.GetResponse();
-                        ConfigedRemotePaths.Add(tryPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.ErrorFormat(ex.Message);
-                    }
-                }
+                createFtpFolder(String.Format("{0}{1}{2}", ftp_server, ftp_folder, path));
             }
 
             return true;
+        }
+
+        private void createFtpFolder(string folderPath)
+        {
+            log.DebugFormat("createFtpFolder - {0}", folderPath);
+
+            if (!configedRemotePaths.Any(s => s == folderPath))
+            {
+                FtpWebRequest request = getRequestObject(folderPath);
+                request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                try
+                {
+                    WebResponse response = request.GetResponse();
+                    configedRemotePaths.Add(folderPath);
+                }
+                catch (Exception ex)
+                {
+                    log.ErrorFormat(ex.Message);
+                }
+            }
         }
 
         public bool FTPUpload(string fromFile, string fileToUpload)
