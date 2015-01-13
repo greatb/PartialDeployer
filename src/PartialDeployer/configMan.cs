@@ -23,7 +23,7 @@
             }
             else
             {
-                Console.WriteLine("Config File not found");
+                log.Info("Config File not found");
                 Console.WriteLine("Quitting...");
                 Environment.Exit(1);
             }
@@ -50,6 +50,7 @@
             }
             catch(Exception ex)
             {
+                log.ErrorFormat("{0} - Keyname : {1}", ex.Message, KeyName);
                 return -1;
             }
         }

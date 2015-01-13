@@ -75,7 +75,7 @@ namespace PartialDeployer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error : {0} - {1}", savePath, ex.Message);
+                log.InfoFormat("Error : {0} - {1}", savePath, ex.Message);
             }
 
 
@@ -110,7 +110,7 @@ namespace PartialDeployer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error Server connection : {0} - {1}", savePath, ex.Message);
+                log.InfoFormat("Error Server connection : {0} - {1}", savePath, ex.Message);
             }
         }
 
@@ -141,7 +141,7 @@ namespace PartialDeployer
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    log.ErrorFormat(ex.Message);
                     //Console.WriteLine(ex.Message);
                 }
             }
@@ -185,7 +185,7 @@ namespace PartialDeployer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                log.ErrorFormat(ex.Message);
                 return false;
             }
             finally
