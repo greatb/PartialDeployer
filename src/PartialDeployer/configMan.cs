@@ -24,7 +24,7 @@
             else
             {
                 log.Info("Config File not found");
-                Console.WriteLine("Quitting...");
+                log.Info("Quitting...");
                 Environment.Exit(1);
             }
         }

@@ -133,7 +133,6 @@ namespace PartialDeployer
             {
                 string tryPath = String.Format("{0}{1}{2}", ftp_server, ftp_folder, path);
                 FtpWebRequest request = getRequestObject(tryPath);
-                //Console.WriteLine("Checking FTP Folder : {0}", tryPath);
                 request.Method = WebRequestMethods.Ftp.MakeDirectory;
                 try
                 {
@@ -142,7 +141,6 @@ namespace PartialDeployer
                 catch (Exception ex)
                 {
                     log.ErrorFormat(ex.Message);
-                    //Console.WriteLine(ex.Message);
                 }
             }
 
@@ -155,12 +153,12 @@ namespace PartialDeployer
 
             if (!File.Exists(fromFile))
             {
-                Console.WriteLine("From file not exists : {0}", fromFile);
+                log.InfoFormat("FromFile not exists : {0}", fromFile);
                 return false;
             }
 
             FtpWebRequest requestFTPUploader = getRequestObject(fileToUpload);
-            Console.WriteLine("Upload file : {0}", fileToUpload);
+            log.InfoFormat("Upload file : {0}", fileToUpload);
             requestFTPUploader.Method = WebRequestMethods.Ftp.UploadFile;
 
             FileInfo fileInfo = new FileInfo(fromFile);
@@ -185,7 +183,7 @@ namespace PartialDeployer
             }
             catch (Exception e)
             {
-                log.ErrorFormat(ex.Message);
+                log.ErrorFormat(e.Message);
                 return false;
             }
             finally
@@ -203,7 +201,7 @@ namespace PartialDeployer
 
             Match match = FtpListDirectoryDetailsRegex.Match(dataline);
             DirEntry ftpET = new DirEntry() { EntryName = match.Groups["fileName"].Value, EntryPath = sFolder, EntryType = FtpEntryType.Unknown };
-            Console.WriteLine(dataline);
+            log.Info(dataline);
             if (dataline.EndsWith(" .") || dataline.EndsWith(" .."))
             {
                 ftpET.EntryType = FtpEntryType.Unknown;

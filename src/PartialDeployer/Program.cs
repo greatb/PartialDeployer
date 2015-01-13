@@ -92,13 +92,12 @@ namespace PartialDeployer
         {
             try
             {
-                Console.WriteLine(_config.FTP_Server);
                 ftp1.FTPGetFolderContents(_config.FTP_Server, "/", false);
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                log.Error(e.Message);
                 return false;
             }
         }

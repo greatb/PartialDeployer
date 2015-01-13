@@ -58,7 +58,7 @@ namespace PartialDeployer
         {
             log.Debug("DirGetFolderContents");
 
-            Console.WriteLine("Reading Folder : {0}", sFolder);
+            log.InfoFormat("Reading Folder : {0}", sFolder);
             List<DirEntry> DirEntries = new List<DirEntry>();
             configMan cr = new configMan("");
 
