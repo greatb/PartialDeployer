@@ -159,7 +159,7 @@ namespace PartialDeployer
 
         public bool FTPUpload(string fromFile, string fileToUpload)
         {
-            log.Debug("FTPUpload");
+            //log.Debug("FTPUpload");
 
             if (!File.Exists(fromFile))
             {

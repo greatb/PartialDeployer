@@ -17,7 +17,7 @@ namespace PartialDeployer
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)
         {
-            log.Debug("ForceCopy");
+            log.DebugFormat("ForceCopy - {0}", fromFile);
 
             if (!Directory.Exists(toPath))
             {
@@ -60,7 +60,6 @@ namespace PartialDeployer
 
             log.InfoFormat("Reading Folder : {0}", sFolder);
             List<DirEntry> DirEntries = new List<DirEntry>();
-            configMan cr = new configMan("");
 
             DirectoryInfo dirInfo = new DirectoryInfo(sFolder);
             if (dirInfo.Exists)

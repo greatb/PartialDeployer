@@ -39,6 +39,7 @@ namespace PartialDeployer
                 {
                     ftp1.FTPMakeFolder(toPath);
                     ftp1.FTPUpload(fromFile, toFile);
+                    fman.ForceCopy(_config.DIR_Deploy + fileToDeploy.EntryPath, fileToDeploy.EntryName, _config.DIR_Product + fileToDeploy.EntryPath, fileToDeploy.EntryName);
                 }
             }
             _deploy.CopyAllDeployToProduction();
@@ -68,7 +69,7 @@ namespace PartialDeployer
             {
                 if (args.Length == 0)
                 {
-                    appName = "App";
+                    appName = "ulavi";
                 }
                 else
                 {
