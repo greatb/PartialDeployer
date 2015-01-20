@@ -22,7 +22,7 @@ namespace PartialDeployer
         private string ftp_password;
         private string ftp_folder;
 
-        private List<string> configedRemotePaths;
+        private List<string> confirmedRemotePaths;
 
         //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
         //Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
@@ -37,7 +37,7 @@ namespace PartialDeployer
             ftp_server = _configMan.FTP_Server;
             ftp_folder = _configMan.FTP_Folder;
 
-            configedRemotePaths = new List<string>();
+            confirmedRemotePaths = new List<string>();
         }
 
         #region Privates
@@ -141,14 +141,14 @@ namespace PartialDeployer
         {
             log.DebugFormat("createFtpFolder - {0}", folderPath);
 
-            if (!configedRemotePaths.Any(s => s == folderPath))
+            if (!confirmedRemotePaths.Any(s => s == folderPath))
             {
                 FtpWebRequest request = getRequestObject(folderPath);
                 request.Method = WebRequestMethods.Ftp.MakeDirectory;
                 try
                 {
                     WebResponse response = request.GetResponse();
-                    configedRemotePaths.Add(folderPath);
+                    confirmedRemotePaths.Add(folderPath);
                 }
                 catch (Exception ex)
                 {
