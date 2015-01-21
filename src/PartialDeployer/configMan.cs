@@ -100,6 +100,13 @@
                 return GetString("DIR_Deploy");
             }
         }
+        public string DIR_Topper
+        {
+            get
+            {
+                return GetString("DIR_Topper");
+            }
+        }
         public string DIR_Release
         {
             get

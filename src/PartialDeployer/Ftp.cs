@@ -30,12 +30,12 @@ namespace PartialDeployer
         public static string fileNamesWithoutDot = "|error_log|";
 
 
-        public ftp(configMan _configMan)
+        public ftp(configMan configMan)
         {
-            ftp_username = _configMan.FTP_UserName;
-            ftp_password = _configMan.FTP_PassWord;
-            ftp_server = _configMan.FTP_Server;
-            ftp_folder = _configMan.FTP_Folder;
+            ftp_username = configMan.FTP_UserName;
+            ftp_password = configMan.FTP_PassWord;
+            ftp_server = configMan.FTP_Server;
+            ftp_folder = configMan.FTP_Folder;
 
             confirmedRemotePaths = new List<string>();
         }

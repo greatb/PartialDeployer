@@ -15,47 +15,48 @@ namespace PartialDeployer
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            configMan _config = loadConfig(args);
+            configMan config = loadConfig(args);
             DateTime dt = DateTime.Now;
-            string releaseName = dt.ToString(_config.ReleaseNameTemplate);
+            string releaseName = dt.ToString(config.ReleaseNameTemplate);
 
             folderMan fman = new folderMan();
-            ftp ftp1 = new ftp(_config);
-            Deploy _deploy = new Deploy(_config);
+            ftp ftp1 = new ftp(config);
+            Deploy deploy = new Deploy(config);
             
-            CheckConnection(ftp1, _config);
+            CheckConnection(ftp1, config);
 
-            _deploy.CleanUpDeployFolderAndReleaseFolder();
-            _deploy.CopyNewAndChangedFiles();
-            IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(_config.DIR_Deploy);
+            deploy.CleanUpDeployFolderAndReleaseFolder();
+            deploy.CopyNewAndChangedFiles();
+            deploy.CopyDeployTopperFiles();
+            IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(config.DIR_Deploy);
 
             foreach (DirEntry fileToDeploy in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
-                string toPath = _config.FTP_Folder + fileToDeploy.EntryPath;
-                toPath = _config.FTP_Server + toPath.Replace("\\", "/").Replace("//", "/");
+                string toPath = config.FTP_Folder + fileToDeploy.EntryPath;
+                toPath = config.FTP_Server + toPath.Replace("\\", "/").Replace("//", "/");
                 string toFile = toPath + fileToDeploy.EntryName;
-                string fromFile = _config.DIR_Deploy + fileToDeploy.EntryPath + fileToDeploy.EntryName;
+                string fromFile = config.DIR_Deploy + fileToDeploy.EntryPath + fileToDeploy.EntryName;
                 if (ftp1.FTPUpload(fromFile, toFile) == false)
                 {
                     ftp1.FTPMakeFolder(toPath);
                     ftp1.FTPUpload(fromFile, toFile);
-                    fman.ForceCopy(_config.DIR_Deploy + fileToDeploy.EntryPath, fileToDeploy.EntryName, _config.DIR_Product + fileToDeploy.EntryPath, fileToDeploy.EntryName);
+                    fman.ForceCopy(config.DIR_Deploy + fileToDeploy.EntryPath, fileToDeploy.EntryName, config.DIR_Product + fileToDeploy.EntryPath, fileToDeploy.EntryName);
                 }
             }
-            _deploy.CopyAllDeployToProduction();
+            deploy.CopyAllDeployToProduction();
         }
 
-        private static void CheckConnection(ftp ftp1, configMan _config)
+        private static void CheckConnection(ftp ftp1, configMan config)
         {
             log.Debug("CheckConnection");
 
             int iCounter = 0;
-            while (!CheckRemoteAccess(ftp1, _config) && iCounter < 5)
+            while (!CheckRemoteAccess(ftp1, config) && iCounter < 5)
             {
                 iCounter++;
             }
 
-            if (!CheckRemoteAccess(ftp1, _config))
+            if (!CheckRemoteAccess(ftp1, config))
             {
                 log.Info("Unable to connect to FTP server");
                 Environment.Exit(1);
@@ -89,11 +90,11 @@ namespace PartialDeployer
             }
         }
 
-        private static bool CheckRemoteAccess(ftp ftp1, configMan _config)
+        private static bool CheckRemoteAccess(ftp ftp1, configMan config)
         {
             try
             {
-                ftp1.FTPGetFolderContents(_config.FTP_Server, "/", false);
+                ftp1.FTPGetFolderContents(config.FTP_Server, "/", false);
                 return true;
             }
             catch (Exception e)
