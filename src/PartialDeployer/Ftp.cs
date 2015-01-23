@@ -139,14 +139,13 @@ namespace PartialDeployer
 
         private void createFtpFolder(string folderPath)
         {
-            log.DebugFormat("createFtpFolder - {0}", folderPath);
-
             if (!confirmedRemotePaths.Any(s => s == folderPath))
             {
                 FtpWebRequest request = getRequestObject(folderPath);
                 request.Method = WebRequestMethods.Ftp.MakeDirectory;
                 try
                 {
+                    log.DebugFormat("createFtpFolder - {0}", folderPath);
                     WebResponse response = request.GetResponse();
                     confirmedRemotePaths.Add(folderPath);
                 }
