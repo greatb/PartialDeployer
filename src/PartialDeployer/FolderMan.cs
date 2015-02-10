@@ -13,11 +13,11 @@ namespace PartialDeployer
     {
         private static readonly ILog log = LogManager.GetLogger("folderMan");
 
-        string[] deliedList = (".git|.gitignore|.gitattributes|.svn-base|sess_|.idea|log-|.less|package\\|app\\storage\\sessions|bundle\\|storage\\").Split('|');
+        string[] deliedList = (".md|.sublime-|.git|.gitignore|.gitattributes|.svn-base|sess_|.idea|log-|.less|test.|package\\|app\\storage\\sessions|bundle\\|storage\\").Split('|');
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)
         {
-            log.DebugFormat("ForceCopy - {0}", fromFile);
+            //log.DebugFormat("ForceCopy - {0}", fromFile);
 
             if (!Directory.Exists(toPath))
             {
@@ -29,7 +29,7 @@ namespace PartialDeployer
 
         private bool AllowedPattern(string path)
         {
-            int loc = deliedList.Count(x => path.Contains("\\" + x));
+            int loc = deliedList.Count(x => path.Contains(x));
             return !(loc > 0);
         }
 
@@ -52,6 +52,11 @@ namespace PartialDeployer
                 }
             }
             return DirEntries;
+        }
+
+        public bool IsFileExists(string fileName)
+        {
+            return File.Exists(fileName);
         }
 
         public List<DirEntry> DirGetFolderContents(string sFolder)
