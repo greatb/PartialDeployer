@@ -23,27 +23,34 @@ namespace PartialDeployer
             ftp ftp1 = new ftp(config);
             Deploy deploy = new Deploy(config);
             
-            CheckConnection(ftp1, config);
+            
 
             deploy.CleanUpDeployFolderAndReleaseFolder();
-            deploy.CopyNewAndChangedFiles();
-            deploy.CopyDeployTopperFiles();
+            deploy.CopySourceToReleaseFiltered();
+            deploy.CopyTopperFilesToRelease();
+            deploy.CopyNewAndChangedReleaseFilesToDeploy();
+            
             IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(config.DIR_Deploy);
 
-            foreach (DirEntry fileToDeploy in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            if (filesToDeploy.Any())
             {
-                string toPath = config.FTP_Folder + fileToDeploy.EntryPath;
-                toPath = config.FTP_Server + toPath.Replace("\\", "/").Replace("//", "/");
-                string toFile = toPath + fileToDeploy.EntryName;
-                string fromFile = config.DIR_Deploy + fileToDeploy.EntryPath + fileToDeploy.EntryName;
-                if (ftp1.FTPUpload(fromFile, toFile) == false)
+                CheckConnection(ftp1, config);
+
+                foreach (DirEntry fileToDeploy in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
                 {
-                    ftp1.FTPMakeFolder(toPath);
-                    ftp1.FTPUpload(fromFile, toFile);
+                    string toPath = config.FTP_Folder + fileToDeploy.EntryPath;
+                    toPath = config.FTP_Server + toPath.Replace("\\", "/").Replace("//", "/");
+                    string toFile = toPath + fileToDeploy.EntryName;
+                    string fromFile = config.DIR_Deploy + fileToDeploy.EntryPath + fileToDeploy.EntryName;
+                    if (ftp1.FTPUpload(fromFile, toFile) == false)
+                    {
+                        ftp1.FTPMakeFolder(toPath);
+                        ftp1.FTPUpload(fromFile, toFile);
+                        fman.ForceCopy(config.DIR_Deploy + fileToDeploy.EntryPath, fileToDeploy.EntryName, config.DIR_Product + fileToDeploy.EntryPath, fileToDeploy.EntryName);
+                    }
                     fman.ForceCopy(config.DIR_Deploy + fileToDeploy.EntryPath, fileToDeploy.EntryName, config.DIR_Product + fileToDeploy.EntryPath, fileToDeploy.EntryName);
                 }
             }
-            deploy.CopyAllDeployToProduction();
         }
 
         private static void CheckConnection(ftp ftp1, configMan config)
@@ -70,7 +77,7 @@ namespace PartialDeployer
             {
                 if (args.Length == 0)
                 {
-                    appName = "ulavi";
+                    appName = "booolean";
                 }
                 else
                 {
