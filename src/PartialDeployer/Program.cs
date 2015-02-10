@@ -22,8 +22,6 @@ namespace PartialDeployer
             folderMan fman = new folderMan();
             ftp ftp1 = new ftp(config);
             Deploy deploy = new Deploy(config);
-            
-            
 
             deploy.CleanUpDeployFolderAndReleaseFolder();
             deploy.CopySourceToReleaseFiltered();
@@ -91,7 +89,6 @@ namespace PartialDeployer
             }
             catch (Exception e)
             {
-
                 log.ErrorFormat("Error {0}", e.Message);
                 return null;
             }
