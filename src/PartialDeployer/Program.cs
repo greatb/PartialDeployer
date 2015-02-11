@@ -24,8 +24,8 @@ namespace PartialDeployer
             Deploy deploy = new Deploy(config);
 
             deploy.CleanUpDeployFolderAndReleaseFolder();
-            deploy.CopySourceToReleaseFiltered();
-            deploy.CopyTopperFilesToRelease();
+            deploy.CopySourceToDeployFiltered();
+            deploy.CopyTopperToDeployFiltered();
             deploy.CopyNewAndChangedReleaseFilesToDeploy();
             
             IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(config.DIR_Deploy);

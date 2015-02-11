@@ -45,7 +45,6 @@ namespace PartialDeployer
             log.Debug("CleanUpDeployFolderAndReleaseFolder");
 
             ResetFolder(config.DIR_Deploy);
-            ResetFolder(config.DIR_Release);
         }
 
         private void ResetFolder(string folderName)
@@ -83,6 +82,30 @@ namespace PartialDeployer
             foreach (DirEntry f in fldSourceContent.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
                 fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Release + f.EntryPath, f.EntryName);
+            }
+        }
+
+        public void CopySourceToDeployFiltered()
+        {
+            log.Debug("CopySourceToDeployFiltered");
+
+            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
+            foreach (DirEntry f in fldSourceContent.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            {
+                fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
+            }
+        }
+
+        public void CopyTopperToDeployFiltered()
+        {
+            log.Debug("CopyTopperToDeployFiltered");
+
+            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> fldTopperContent = fman.DirGetFolderContents(config.DIR_Topper);
+            foreach (DirEntry f in fldTopperContent.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            {
+                fman.ForceCopy(config.DIR_Topper + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
             }
         }
 
