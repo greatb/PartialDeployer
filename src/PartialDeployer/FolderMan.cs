@@ -17,13 +17,12 @@ namespace PartialDeployer
 
         public bool ForceCopy(string fromPath, string fromFile, string toPath, string toFile)
         {
-            //log.DebugFormat("ForceCopy - {0}", fromFile);
-
             if (!Directory.Exists(toPath))
             {
                 Directory.CreateDirectory(toPath);
             }
             File.Copy(fromPath + fromFile, toPath + toFile, true);
+
             return true;
         }
 
@@ -61,8 +60,6 @@ namespace PartialDeployer
 
         public List<DirEntry> DirGetFolderContents(string sFolder)
         {
-            log.Debug("DirGetFolderContents");
-
             log.InfoFormat("Reading Folder : {0}", sFolder);
             List<DirEntry> DirEntries = new List<DirEntry>();
 

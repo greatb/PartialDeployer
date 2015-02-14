@@ -54,7 +54,7 @@ namespace PartialDeployer
             log.Debug("CheckConnection");
 
             int iCounter = 0;
-            while (!CheckRemoteAccess(ftp1, config) && iCounter < 5)
+            while (!CheckRemoteAccess(ftp1, config) && iCounter < 3)
             {
                 iCounter++;
             }

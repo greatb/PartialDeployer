@@ -42,8 +42,6 @@ namespace PartialDeployer
 
         public void CleanUpDeployFolderAndReleaseFolder()
         {
-            log.Debug("CleanUpDeployFolderAndReleaseFolder");
-
             ResetFolder(config.DIR_Deploy);
         }
 
@@ -98,7 +96,7 @@ namespace PartialDeployer
 
         public void CopyNewAndChangedFilesToDeploy()
         {
-            log.Debug("CopyTopperToDeployFiltered");
+            log.Debug("CopyNewAndChangedFilesToDeploy");
 
             folderMan fman = new folderMan();
 
