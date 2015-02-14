@@ -50,7 +50,6 @@
     <Compile Include="DirEntry.cs" />
     <Compile Include="FolderMan.cs" />
     <Compile Include="Ftp.cs" />
-    <Compile Include="Laravel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
