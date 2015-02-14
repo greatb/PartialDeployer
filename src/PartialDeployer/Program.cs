@@ -24,8 +24,6 @@ namespace PartialDeployer
             Deploy deploy = new Deploy(config);
 
             deploy.CleanUpDeployFolderAndReleaseFolder();
-            deploy.CopySourceToDeployFiltered();
-            deploy.CopyTopperToDeployFiltered();
             deploy.CopyNewAndChangedReleaseFilesToDeploy();
             
             IEnumerable<DirEntry> filesToDeploy = fman.DirGetFolderContents(config.DIR_Deploy);
@@ -75,7 +73,7 @@ namespace PartialDeployer
             {
                 if (args.Length == 0)
                 {
-                    appName = "booolean";
+                    appName = "ulavi";
                 }
                 else
                 {
