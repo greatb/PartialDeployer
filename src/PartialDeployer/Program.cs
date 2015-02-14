@@ -75,7 +75,7 @@ namespace PartialDeployer
             {
                 if (args.Length == 0)
                 {
-                    appName = "booolean";
+                    appName = "ulavi";
                 }
                 else
                 {

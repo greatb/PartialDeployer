@@ -45,7 +45,7 @@ namespace PartialDeployer
             log.Debug("CleanUpDeployFolderAndReleaseFolder");
 
             ResetFolder(config.DIR_Deploy);
-            ResetFolder(config.DIR_Release);
+            //ResetFolder(config.DIR_Release);
         }
 
         private void ResetFolder(string folderName)
