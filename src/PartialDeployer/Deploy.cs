@@ -45,7 +45,6 @@ namespace PartialDeployer
             log.Debug("CleanUpDeployFolderAndReleaseFolder");
 
             ResetFolder(config.DIR_Deploy);
-            //ResetFolder(config.DIR_Release);
         }
 
         private void ResetFolder(string folderName)
@@ -62,7 +61,6 @@ namespace PartialDeployer
             log.Debug("CopyAllDeployToProduction");
 
             folderMan fman = new folderMan();
-
             IEnumerable<DirEntry> filesToProduction = fman.DirGetFolderContents(config.DIR_Deploy);
 
             foreach (DirEntry f in filesToProduction.Where(x => x.EntryType == FtpEntryType.File).ToList())
@@ -86,12 +84,21 @@ namespace PartialDeployer
             }
         }
 
-        public void CopyNewAndChangedReleaseFilesToDeploy()
+        public void CopySourceToDeployFiltered()
         {
-            log.Debug("CopyNewAndChangedFiles");
+            log.Debug("CopySourceToDeployFiltered");
 
-            DateTime dt = DateTime.Now;
-            string releaseName = dt.ToString(config.ReleaseNameTemplate);
+            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
+            foreach (DirEntry f in fldSourceContent.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            {
+                fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
+            }
+        }
+
+        public void CopyTopperToDeployFiltered()
+        {
+            log.Debug("CopyTopperToDeployFiltered");
 
             folderMan fman = new folderMan();
             IEnumerable<DirEntry> fldReleaseContent = fman.DirGetFolderContents(config.DIR_Source);
@@ -100,9 +107,21 @@ namespace PartialDeployer
             DirEntryEqualityComparer dirEntryEqualityComparer = new DirEntryEqualityComparer();
             IEnumerable<DirEntry> filesToDeploy = fldReleaseContent.Except(fldProudContent, dirEntryEqualityComparer).ToList();
 
-            foreach (DirEntry f in filesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            IEnumerable<DirEntry> fldProductContent = fman.DirGetFolderContents(config.DIR_Product);
+            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
+            IEnumerable<DirEntry> fldTopperContent = fman.DirGetFolderContents(config.DIR_Topper);
+
+            IEnumerable<DirEntry> sourFilesToDeploy = fldSourceContent.Except(fldProductContent, dirEntryEqualityComparer).ToList();
+            IEnumerable<DirEntry> toppFilesToDeploy = fldTopperContent.Except(fldProductContent, dirEntryEqualityComparer).ToList();
+
+            foreach (DirEntry f in sourFilesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
-                fman.ForceCopy(config.DIR_Release + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
+                fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
+            }
+
+            foreach (DirEntry f in toppFilesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            {
+                fman.ForceCopy(config.DIR_Topper + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
             }
         }
 
