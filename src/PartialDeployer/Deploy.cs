@@ -45,7 +45,6 @@ namespace PartialDeployer
             log.Debug("CleanUpDeployFolderAndReleaseFolder");
 
             ResetFolder(config.DIR_Deploy);
-            //ResetFolder(config.DIR_Release);
         }
 
         private void ResetFolder(string folderName)
@@ -85,12 +84,28 @@ namespace PartialDeployer
             }
         }
 
-        public void CopyNewAndChangedReleaseFilesToDeploy()
+        public void CopySourceToDeployFiltered()
         {
-            log.Debug("CopyNewAndChangedReleaseFilesToDeploy");
+            log.Debug("CopySourceToDeployFiltered");
+
+            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
+            foreach (DirEntry f in fldSourceContent.Where(x => x.EntryType == FtpEntryType.File).ToList())
+            {
+                fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
+            }
+        }
+
+        public void CopyTopperToDeployFiltered()
+        {
+            log.Debug("CopyTopperToDeployFiltered");
+
+            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> fldReleaseContent = fman.DirGetFolderContents(config.DIR_Source);
+            IEnumerable<DirEntry> fldProudContent = fman.DirGetFolderContents(config.DIR_Product);
 
             DirEntryEqualityComparer dirEntryEqualityComparer = new DirEntryEqualityComparer();
-            folderMan fman = new folderMan();
+            IEnumerable<DirEntry> filesToDeploy = fldReleaseContent.Except(fldProudContent, dirEntryEqualityComparer).ToList();
 
             IEnumerable<DirEntry> fldProductContent = fman.DirGetFolderContents(config.DIR_Product);
             IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
