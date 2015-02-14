@@ -96,16 +96,13 @@ namespace PartialDeployer
             }
         }
 
-        public void CopyTopperToDeployFiltered()
+        public void CopyNewAndChangedFilesToDeploy()
         {
             log.Debug("CopyTopperToDeployFiltered");
 
             folderMan fman = new folderMan();
-            IEnumerable<DirEntry> fldReleaseContent = fman.DirGetFolderContents(config.DIR_Source);
-            IEnumerable<DirEntry> fldProudContent = fman.DirGetFolderContents(config.DIR_Product);
 
             DirEntryEqualityComparer dirEntryEqualityComparer = new DirEntryEqualityComparer();
-            IEnumerable<DirEntry> filesToDeploy = fldReleaseContent.Except(fldProudContent, dirEntryEqualityComparer).ToList();
 
             IEnumerable<DirEntry> fldProductContent = fman.DirGetFolderContents(config.DIR_Product);
             IEnumerable<DirEntry> fldSourceContent = fman.DirGetFolderContents(config.DIR_Source);
