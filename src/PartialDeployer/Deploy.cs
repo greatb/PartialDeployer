@@ -114,6 +114,11 @@ namespace PartialDeployer
                 fman.ForceCopy(config.DIR_Source + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);
             }
 
+            foreach(DirEntry f in fldTopperContent)
+            {
+                fman.DeleteFile(config.DIR_Deploy + f.EntryPath + f.EntryName);
+            }
+
             foreach (DirEntry f in toppFilesToDeploy.Where(x => x.EntryType == FtpEntryType.File).ToList())
             {
                 fman.ForceCopy(config.DIR_Topper + f.EntryPath, f.EntryName, config.DIR_Deploy + f.EntryPath, f.EntryName);

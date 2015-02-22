@@ -26,6 +26,11 @@ namespace PartialDeployer
             return true;
         }
 
+        public void DeleteFile(string fromFile)
+        {
+            File.Delete(fromFile);
+        }
+
         private bool AllowedPattern(string path)
         {
             int loc = deliedList.Count(x => path.Contains(x));
